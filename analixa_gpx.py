@@ -10,7 +10,7 @@ def main():
 
     for arquivo in arquivos:
         if re.findall('\.gpx$', arquivo):
-            nome_txt = arquivo.removesuffix('.gpx') + '.txt'
+            nome_txt = 'arquivo' + arquivo.removeprefix('linha').removesuffix('.gpx') + '.txt'
             analisa_xml_escreve_txt(arquivo, nome_txt)
 
 
@@ -34,7 +34,7 @@ def analisa_xml_escreve_txt(arquivo, nome_txt):
         elev.append(elevation)
         names.append(name)
         description.append(desc)
-        dist = desc.replace('<table cellspacing="0" cellpadding="2" border="1" style="border-collapse:collapse"><tr><td><b>distance</b></td><td>', '').replace('</td></tr><tr><td><b>angle</b></td><td>179.967954994711</td></tr></table>', '')
+        dist = desc.removeprefix('<table cellspacing="0" cellpadding="2" border="1" style="border-collapse:collapse"><tr><td><b>distance</b></td><td>').removesuffix('</td></tr></table>').rsplit('<td>')[0].removesuffix('</td></tr><tr>')
         angle = desc.removeprefix('<table cellspacing="0" cellpadding="2" border="1" style="border-collapse:collapse"><tr><td><b>distance</b></td><td>').removesuffix('</td></tr></table>').rsplit('<td>')[-1]
         angles.append(angle)
         distance.append(dist)
